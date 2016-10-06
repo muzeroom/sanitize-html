@@ -464,6 +464,19 @@ describe('sanitizeHtml', function() {
       }), '&quot;normal text&quot;<style>body { background-image: url("image.test"); }</style>'
     );
   });
+  it('should not escape is skipEscapeHtml option is true', function() {
+    assert.equal(
+      sanitizeHtml('<div>"normal text"</div>', {
+        allowedTags: [ 'script' ],
+        skipEscapeHtml: true
+      }), '"normal text"'
+    );
+    assert.equal(
+      sanitizeHtml('<div>"normal text"</div><style>body { background-image: url("image.test"); }</style>', {
+        allowedTags: [ 'style' ]
+      }), '&quot;normal text&quot;<style>body { background-image: url("image.test"); }</style>'
+    );
+  });
   it('should not unescape escapes found inside script tags', function() {
     assert.equal(
       sanitizeHtml('<script>alert("&quot;This is cool but just ironically so I quoted it&quot;")</script>',
